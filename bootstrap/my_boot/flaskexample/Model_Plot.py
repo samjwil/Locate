@@ -182,9 +182,9 @@ def main(city):
         percinc=np.divide(Next,Current)
 
         #Mine, Best, Mean
-        My[id_]=np.nanmean(percinc[samTop(percpred,.1)])
-        Best[id_]=np.nanmean(percinc[samTop(percinc,.1)])
-        Mean[id_]=np.nanmedian(percinc)
+        My[id_]=(np.nanmean(percinc[samTop(percpred,.1)])-1)*100
+        Best[id_]=(np.nanmean(percinc[samTop(percinc,.1)])-1)*100
+        Mean[id_]=(np.nanmedian(percinc)-1)*100
 
 
     #####
@@ -231,6 +231,7 @@ def main(city):
         btlng.append(lng[bt])
         btcols[id_]=cols[id_]
         mcol.append(cols[id_])
+
 
     My[np.isnan(My)]=-999
     Best[np.isnan(Best)]=-999
