@@ -23,18 +23,75 @@
     </table>
 {% endblock %}
 
+{% block meanplot %}
+<div id="chart1"></div>
+<script type="text/javascript">
+
+var chart = c3.generate({
+    bindto: '#chart1',
+    data: {
+      x: 'time2',
+      columns: [
+        {{ time2 | safe}},
+        [{{ mvals | safe}}]
+      ]
+    },
+    axis: {
+        x: {
+            type: 'timeseries',
+            tick: {
+                format: '%Y-%m-%d'
+            },
+            label: {
+              text: 'Time of Listing',
+              position: 'outer-middle'
+            }
+        },
+        y: {
+          label:{
+                text: 'Median Listing Price [%]',
+                position: 'outer-middle'
+          }
+        }
+    }
+});
+</script>
+{% endblock %}
+
+
 {% block c3js %}
 <div id="chart"></div>
 <script type="text/javascript">
+
 var chart = c3.generate({
     bindto: '#chart',
     data: {
+      x: 'time',
       columns: [
-        // {{ x | safe}},
+        {{ time | safe}},
         [{{ out2 | safe}}],
         [{{ out1 | safe}}],
         [{{ out3 | safe}}]
       ]
+    },
+    axis: {
+        x: {
+            type: 'timeseries',
+            tick: {
+                format: '%Y-%m-%d'
+            },
+            label: {
+              text: 'Time of Investment',
+              position: 'outer-middle'
+            }
+        },
+        y: {
+          min: 0,
+          label:{
+                text: 'Return on Investment [%]',
+                position: 'outer-middle'
+          }
+        }
     }
 });
 </script>

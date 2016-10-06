@@ -231,21 +231,26 @@ def main(city):
         btlng.append(lng[bt])
         btcols[id_]=cols[id_]
         mcol.append(cols[id_])
-   
-    
+
+    My[np.isnan(My)]=-999
+    Best[np.isnan(Best)]=-999
+    Mean[np.isnan(Mean)]=-999
+
     # plt.close('all')
-    x=['"x"'] + np.asarray(fulldates)[~np.isnan(My)].tolist()
-    out1=['"My Prediction"'] + My[~np.isnan(My)].astype(str).tolist()
-    out2=['"Best Option"'] + Best[~np.isnan(My)].astype(str).tolist()
-    out3=['"Market Median"'] + Mean[~np.isnan(My)].astype(str).tolist()
+    time=['time'] + np.asarray(fulldates).tolist()
+    out1=['"My Prediction"'] + My.astype('|S4').tolist()
+    out2=['"Best Option"'] + Best.astype('|S4').tolist()
+    out3=['"Market Median"'] + Mean.astype('|S4').tolist()
     lat=[str(item) for item in btlat]
     lng=[str(item) for item in btlng]
     mcol=[str(item) for item in mcol]
     x = {'range':["$0 to $100K","$100K to $500K","$500K to $1M","$1M to $2M"], 'name': btnames, 'id_': btid,'cols':btcols}
 
+    time2=['time2'] + np.asarray(fulldates).tolist()
+    mvals= '"Median Home Price",'+','.join(fulldf.median().values.astype(str))
 
     output={
-        'x': x,
+        'time': time,
         'out1': out1,
         'out2': out2,
         'out3': out3,
@@ -253,7 +258,9 @@ def main(city):
         'lng':lng,
         'result_dict':x,
         'mcol': mcol,
-        'geoname':geoname
+        'geoname':geoname,
+        'time2':time2,
+        'mvals':mvals
         }
     return output
     # fig, ax=plt.subplots(ncols=1, nrows=1, )
