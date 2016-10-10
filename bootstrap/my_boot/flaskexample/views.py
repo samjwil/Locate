@@ -28,6 +28,8 @@ def go():
     geoname=output['geoname']
     mvals=output['mvals']
     time2=output['time2']
+    names=output['names']
+    links=output['links']
     return render_template(
         'go.html',
         query = output,
@@ -41,5 +43,7 @@ def go():
         result_dict = result_dict,
         mcol = mcol,
         time2 = time2,
-        mvals = mvals
+        mvals = mvals,
+        links = links,
+        names = names
     )

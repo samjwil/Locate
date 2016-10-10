@@ -93,54 +93,67 @@
       <!-- item list -->
       <div class="panel panel-default">
 				<div class="panel-heading">
-					Table
+					Neighborhood Suggestions
 				</div>
 			</div>
-
-			<center>
+<div>Top Performers by Price Range</div>
+				{% block table %}
+				<center>
 				<div>
-					{% block table %}
-					<table border="1">
-			        <tr>
-			            <td>Price Range</td>
-			            <td>Neighborhood Name</td>
-			            <td>Marker Color</td>
+				    <table border="1">
+				        <tr>
+				            <td>Price Range</td>
+				            <td>Top Performer</td>
+				            <td>Marker Color</td>
 
-			        </tr>
+				        </tr>
 
+				        <tr>
+				          <td>$0 to $100K</td>
+				          <td> </td>
+				          <td bgcolor="ffffff"> </td>
+				        </tr>
 
-			        <tr>
-			          <td>$0 to $100K</td>
-			          <td> </td>
-			          <td bgcolor="ffffff"> </td>
-			        </tr>
+				        <tr>
+				          <td>$100K to $500K</td>
+				          <td> </td>
+				          <td bgcolor="ffffff"> </td>
+				        </tr>
 
-			        <tr>
-			          <td>$100K to $500K</td>
-			          <td> </td>
-			          <td bgcolor="ffffff"> </td>
-			        </tr>
+				        <tr>
+				          <td>$500K to $1M</td>
+				          <td>Visitacion Valley</td>
+				          <td bgcolor="72c8db"> </td>
+				        </tr>
 
-			        <tr>
-			          <td>$500K to $1M</td>
-			          <td>Visitacion Valley</td>
-			          <td bgcolor="72c8db"> </td>
-			        </tr>
+				        <tr>
+				          <td>$1M to $2M</td>
+				          <td>Balboa Terrace</td>
+				          <td bgcolor="f442f4"> </td>
+				        </tr>
 
-			        <tr>
-			          <td>$1M to $2M</td>
-			          <td>Balboa Terrace</td>
-			          <td bgcolor="f442f4"> </td>
-			        </tr>
+				    </table>
+				  </div>
+				</center>
 
-			    </table>
-					{% endblock %}
+				<hr>
+				<div> Predicted top 10% of neighborhoods in San Francisco, CA:
+
+				<a href="https://www.trulia.com/CA/San_Francisco,1472" target="_blank">Visitacion Valley</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1389" target="_blank">Balboa Terrace</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1444" target="_blank">North Beach</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1430" target="_blank">Lower Pacific Heights</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1467" target="_blank">Telegraph Hill</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1386" target="_blank">Alamo Square</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1462" target="_blank">SoMa</a></li>,
+				<a href="https://www.trulia.com/CA/San_Francisco,1401" target="_blank">Cow Hollow</a></li>,
 				</div>
-			</center>
+
+			{% endblock %}
 			<hr>
 
 			<div class="panel panel-default">
-				<div class="panel-heading">Median Prices</a></div>
+				<div class="panel-heading">Median Price Listing History</a></div>
 			</div>
 
 				{% block meanplot %}
@@ -257,7 +270,7 @@
 		  var latlng = new google.maps.LatLng(mylat[0], mylng[0]);
 		  var map = new google.maps.Map(document.getElementById("map-canvas"), {
 		    center: latlng,
-		    zoom: 9
+		    zoom: 10
 		  });
 
 		 for (i = 0; i < mylat.length; i++) {

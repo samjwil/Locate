@@ -103,7 +103,7 @@ def main(city):
             lat=[]
             lng=[]
             names=[]
-            ids=[]
+            links=[]
             for kd_, line in enumerate(f):
                 nowJSON=json.loads(line)
                 # print nowJSON
@@ -117,7 +117,8 @@ def main(city):
                 lat.append(geo[0]['geometry']['location']['lat'])
                 lng.append(geo[0]['geometry']['location']['lng'])
                 names.append(nowJSON['name'])
-                ids.append(nowJSON['id_'])
+                links.append('https://www.trulia.com/%s/%s,%d' %(nowJSON['state'], nowJSON['city'].replace(' ', '_'), nowJSON['id_']))
+                # ids.append(nowJSON['id_'])
                 dates=[str(item) for item in nowJSON['time']]
 
                 TS=cleanTrulia(dates,avgTS)
@@ -187,7 +188,7 @@ def main(city):
         Mean[id_]=(np.nanmedian(percinc)-1)*100
 
 
-    #####
+    ###########################################
     #make Prediction
     pf_pred=np.empty([fulldf.shape[0],deg])*np.NAN
     jd_=-1
@@ -204,8 +205,18 @@ def main(city):
     mypred2=samPolyEval(predtime,pf)
     percpred=np.divide(mypred2,Current)
 
-    index=samTop(percpred,.2)
+    index=samTop(percpred,.1)
+    #######################################
+    # create links
+    passedlink=[]
+    passedname=[]
+    for item in index[::-1]:
+        #https://www.trulia.com/CA/San_Diego,33122,La_Jolla_Farms/
+        passedlink.append(links[item])
+        passedname.append(names[item])
 
+    ######################################
+    #Create threshold table
     #check thresholds
     thr=[0 ,1e5, 5e5, 1e6, 2e6]
     # bt=np.empty(len(thr))*np.NAN
@@ -226,13 +237,14 @@ def main(city):
         bt=int(avail[-1])
         # print bt[id_]
         btnames[id_]= names[int(bt)]
-        btid[id_]= str(ids[int(bt)])
         btlat.append(lat[bt])
         btlng.append(lng[bt])
         btcols[id_]=cols[id_]
         mcol.append(cols[id_])
 
 
+    ########################################
+    #Prepare variables.
     My[np.isnan(My)]=-999
     Best[np.isnan(Best)]=-999
     Mean[np.isnan(Mean)]=-999
@@ -261,7 +273,9 @@ def main(city):
         'mcol': mcol,
         'geoname':geoname,
         'time2':time2,
-        'mvals':mvals
+        'mvals':mvals,
+        'links':passedlink,
+        'names':passedname
         }
     return output
     # fig, ax=plt.subplots(ncols=1, nrows=1, )
