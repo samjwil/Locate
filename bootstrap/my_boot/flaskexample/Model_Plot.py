@@ -81,8 +81,6 @@ def main(city):
 
     # num=14
     for id_, filename in enumerate(filenames):
-        print (city in filename)
-        print filename
 
         if city not in filename:
             continue
@@ -113,7 +111,7 @@ def main(city):
                 avgTS=np.array(nowJSON['avgTS'])
                 geo = json.loads(nowJSON['geo'])
                 geoname='%s, %s' %(nowJSON['city'], nowJSON['state'])
-
+                print kd_
                 lat.append(geo[0]['geometry']['location']['lat'])
                 lng.append(geo[0]['geometry']['location']['lng'])
                 names.append(nowJSON['name'])
@@ -183,10 +181,23 @@ def main(city):
         percinc=np.divide(Next,Current)
 
         #Mine, Best, Mean
-        My[id_]=(np.nanmean(percinc[samTop(percpred,.1)])-1)*100
-        Best[id_]=(np.nanmean(percinc[samTop(percinc,.1)])-1)*100
+        top_pred=samTop(percpred,.1)
+        top_true=samTop(percinc,.1)
+        if top_true.size<top_pred.size:
+            top_pred=top_pred[(top_pred.size-top_true.size):]
+        if top_pred.size<top_true.size:
+            top_true=top_true[(top_true.size-top_pred.size):]
+
+        # print top_true.size
+        # print top_pred.size
+        My[id_]=(np.nanmean(percinc[top_pred])-1)*100
+        Best[id_]=(np.nanmean(percinc[top_true])-1)*100
         Mean[id_]=(np.nanmedian(percinc)-1)*100
 
+        if My[id_]>Best[id_]:
+            print top_true.size
+            print top_pred.size
+            DEADBEEF
 
     ###########################################
     #make Prediction
@@ -260,7 +271,9 @@ def main(city):
     x = {'range':["$0 to $100K","$100K to $500K","$500K to $1M","$1M to $2M"], 'name': btnames, 'id_': btid,'cols':btcols}
 
     time2=['time2'] + np.asarray(fulldates).tolist()
-    mvals= '"Median Home Price",'+','.join(fulldf.median().values.astype(str))
+    meds=fulldf.median().values
+    meds[np.isnan(meds)]=np.median(meds[~np.isnan(meds)])
+    mvals= '"Median Home Price",'+','.join(meds.astype(str))
 
     output={
         'time': time,
